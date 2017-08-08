@@ -22,8 +22,11 @@ class Cell():
 		if bidir:
 			cell.unlink(self, False)
 
-	def links(self):
-		return list(self.links.keys())				
+	def is_linked(self, cell):
+		return cell in self.true_links 
+
+	def true_links(self):
+		return [key for key in  self.links.keys() if self.links[key]]
 
 	def is_linked(self, cell):
 		return cell in self.links
@@ -71,10 +74,33 @@ class Grid():
 				self.grid[i][j].neighbors["south"] = grid[i+1][j]
 				self.grid[i][j].neighbors["east"] = grid[i][j+1]
 				self.grid[i][j].neighbors["west"] = grid[i][j-1]
-			
+	
+	def print_grid(self):
+		SPACE = "   "
+		WALL  = "   |"
+
+		top_wall = "+" + ("---+" * self.columns)
+		row_strings = [top_wall]
+
+		for row in self.grid:
+			ascii_row = "|"
+			for i, cell in enumerate(row[:-1]):
+				if cell.is_linked(cell.neighbors["east"]):
+					ascii_row += WALL
+				else:
+					ascii_row += SPACE 
+						
+			ascii_row += "|"
+			row_strings += ascii_row
+
+		for elem in row_strings:
+			print(elem)
 
 g = Grid(10, 10)
 grid = g.grid
 
-for i in range(10):
-	print(grid[i])
+g.print_grid()
+
+
+#for i in range(10):
+#	print(grid[i])
