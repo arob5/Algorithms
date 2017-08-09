@@ -1,7 +1,7 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/6/2017
+# Last Modified: 8/8/2017
 # Modified By: Andrew Roberts
 #
 
@@ -9,27 +9,21 @@ class Cell():
 	def __init__(self, row, column):
 		self.row = row
 		self.column = column
-		neighbors = {"north": None, "south": None, "east": None, "west": None}
-		self.links = {} 
+		self.neighbors = {"north": None, "south": None, "east": None, "west": None}
+		self.links = [] 
 
 	def link(self, cell, bidir=True):
-		self.links[cell] = True
+		self.links.append([cell.row, cell.column])
 		if bidir:
-			cell.link(self, false)
+			cell.link(self, False)
 	
 	def unlink(self, cell, bidir=True):
-		del self.links[cell] 
+		self.links.remove([cell.row, cell.column]) 
 		if bidir:
 			cell.unlink(self, False)
 
 	def is_linked(self, cell):
-		return cell in self.true_links 
-
-	def true_links(self):
-		return [key for key in  self.links.keys() if self.links[key]]
-
-	def is_linked(self, cell):
-		return cell in self.links
+		return [cell.row, cell.column] in self.links
 
 	def current_neighbors(self):
 		neighbor_cells = []
@@ -67,34 +61,51 @@ class Grid():
 		for j in range(self.columns):
 			self.grid[self.rows-1][j].neighbors["south"] = None
 		
-		# Interior cells	
-		for i in range(1, self.rows-1):
-			for j in range(1, self.columns-1):
-				self.grid[i][j].neighbors["north"] = grid[i-1][j]
-				self.grid[i][j].neighbors["south"] = grid[i+1][j]
-				self.grid[i][j].neighbors["east"] = grid[i][j+1]
-				self.grid[i][j].neighbors["west"] = grid[i][j-1]
+		# All cells	
+		for i in range(0, self.rows):
+			for j in range(0, self.columns):
+				if i != 0: 
+					self.grid[i][j].neighbors["north"] = self.grid[i-1][j]
+				if i != (self.rows-1):
+					self.grid[i][j].neighbors["south"] = self.grid[i+1][j]
+				if j != (self.columns-1):
+					self.grid[i][j].neighbors["east"] = self.grid[i][j+1]
+				if j != 0:
+					self.grid[i][j].neighbors["west"] = self.grid[i][j-1]
 	
 	def print_grid(self):
 		SPACE = "   "
 		WALL  = "   |"
+		SPACE_HORIZ = "   +"
+		WALL_HORIZ = "---+"
 
-		top_wall = "+" + ("---+" * self.columns)
-		row_strings = [top_wall]
+		top_bottom_walls = "+" + ("---+" * self.columns)
+		row_strings_top  = [top_bottom_walls]
+		row_strings_bottom = []
 
-		for row in self.grid:
-			ascii_row = "|"
-			for i, cell in enumerate(row[:-1]):
-				if cell.is_linked(cell.neighbors["east"]):
-					ascii_row += WALL
-				else:
-					ascii_row += SPACE 
-						
-			ascii_row += "|"
-			row_strings += ascii_row
+		for i, row in enumerate(self.grid):
+			ascii_row_top = "|"
+			ascii_row_bottom = "+"
+			for j, cell in enumerate(row):
+				if j != (self.columns-1):
+					if cell.is_linked(cell.neighbors["east"]):
+						ascii_row_top += SPACE
+					else:
+						ascii_row_top += WALL
+				if i != (self.columns-1): 
+					if cell.is_linked(cell.neighbors["south"]):
+						ascii_row_bottom += SPACE_HORIZ
+					else:
+						ascii_row_bottom += WALL_HORIZ	
+	
+			ascii_row_top += WALL
+			row_strings_top.append(ascii_row_top)
+			row_strings_bottom.append(ascii_row_bottom)
+		
+		for top, bot in zip(row_strings_top, row_strings_bottom):
+			print(top)
+			print(bot)
 
-		for elem in row_strings:
-			print(elem)
 
 g = Grid(10, 10)
 grid = g.grid
