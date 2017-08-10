@@ -10,11 +10,10 @@ import binary_search_maze_class
 
 
 # Create a grid
-g = grid_cell_class.Grid(10, 10)
-grid = g.grid 
+grid = grid_cell_class.Grid(10, 10)
+grid.print_grid()
 
-'''
 # Run the binary search algorithm
-bs = BinarySearchMaze()
-grid = bs.mazeify(grid)
-'''
+bs = binary_search_maze_class.BinarySearchMaze()
+bs.mazeify(grid)
+grid.print_grid()

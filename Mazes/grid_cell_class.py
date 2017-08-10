@@ -1,7 +1,7 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/8/2017
+# Last Modified: 8/9/2017
 # Modified By: Andrew Roberts
 #
 
@@ -80,7 +80,7 @@ class Grid():
 		WALL_HORIZ = "---+"
 
 		top_bottom_walls = "+" + ("---+" * self.columns)
-		row_strings_top  = [top_bottom_walls]
+		row_strings_top  = []
 		row_strings_bottom = []
 
 		for i, row in enumerate(self.grid):
@@ -92,7 +92,7 @@ class Grid():
 						ascii_row_top += SPACE
 					else:
 						ascii_row_top += WALL
-				if i != (self.columns-1): 
+				if i != (self.rows-1): 
 					if cell.is_linked(cell.neighbors["south"]):
 						ascii_row_bottom += SPACE_HORIZ
 					else:
@@ -100,12 +100,17 @@ class Grid():
 	
 			ascii_row_top += WALL
 			row_strings_top.append(ascii_row_top)
-			row_strings_bottom.append(ascii_row_bottom)
-		
+			if i != (self.rows-1):
+				row_strings_bottom.append(ascii_row_bottom)
+
+#		row_strings_top.append("|" + WALL*self.columns)	
+
+		print(top_bottom_walls)
 		for top, bot in zip(row_strings_top, row_strings_bottom):
 			print(top)
 			print(bot)
-
+		print(row_strings_top[-1])
+		print(top_bottom_walls)
 
 g = Grid(10, 10)
 grid = g.grid
