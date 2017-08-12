@@ -1,7 +1,7 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/9/2017
+# Last Modified: 8/11/2017
 # Modified By: Andrew Roberts
 #
 
@@ -72,6 +72,22 @@ class Grid():
 					self.grid[i][j].neighbors["east"] = self.grid[i][j+1]
 				if j != 0:
 					self.grid[i][j].neighbors["west"] = self.grid[i][j-1]
+
+	def cell_at(self, row, col):
+		return self.grid[row][col]
+
+	def row_at(self, row):
+		try:
+			return self.grid[row]
+		except Exception:
+			print("Row out of bounds")
+
+	def column_at(self, col):
+		try:
+			return [row[col] for row in self.grid]
+		except Exception:
+			print("Column out of bounds")
+
 	
 	def print_grid(self):
 		SPACE = "   "
@@ -111,12 +127,3 @@ class Grid():
 			print(bot)
 		print(row_strings_top[-1])
 		print(top_bottom_walls)
-
-g = Grid(10, 10)
-grid = g.grid
-
-g.print_grid()
-
-
-#for i in range(10):
-#	print(grid[i])
