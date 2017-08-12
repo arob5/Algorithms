@@ -42,7 +42,7 @@ class Grid():
 		self.configure_cells()			
 		
 	def prepare_grid(self):
-		return [[Cell(i,j) for i in range(self.rows)] for j in range(self.columns)]	
+		return [[Cell(i,j) for j in range(self.columns)] for i in range(self.rows)]	
 
 	def configure_cells(self):
 		# Rightmost border
@@ -91,76 +91,32 @@ class Grid():
 	def print_grid(self):
 		top_and_bottom_wall = "+" + ("---+" * self.columns)
 
-		top_row = False
 		print(top_and_bottom_wall)
 		for i, row in enumerate(self.grid):
-			if top and (i != self.rows-1):
-				print_top_wall(row)	
-
-			if not top:
-				print_bottom_wall(row)		
-			top_row = not top_row
+			if i != 0:
+				self.print_top_wall(row)	
+			self.print_bottom_wall(row)		
 		print(top_and_bottom_wall)	
 
 	@staticmethod
 	def print_top_wall(row):
-		print("+")
+		print("+", end="")
 
 		for cell in row:
-			if cell.is_linked(cell.neighbors[north]):
+			if cell.is_linked(cell.neighbors["north"]):
 				print("   +", end="")
 			else:
 				print("---+", end="")
-
 		print("")
 
 	@staticmethod
 	def print_bottom_wall(row):
-		print("|")
-		
-		for cell in row[-1]:
-			if cell.is_linked(ce..neighbors[east])	
-		
+		print("|", end="")
+
+		for cell in row[:-1]:
+			if cell.is_linked(cell.neighbors["east"]):	
+				print("    ", end="")
+			else:
+				print("   |", end="")
 		print("   |")
 
-
-"""	
-	def print_grid(self):
-		SPACE = "   "
-		WALL  = "   |"
-		SPACE_HORIZ = "   +"
-		WALL_HORIZ = "---+"
-
-		top_bottom_walls = "+" + ("---+" * self.columns)
-		row_strings_top  = []
-		row_strings_bottom = []
-
-		for i, row in enumerate(self.grid):
-			ascii_row_top = "|"
-			ascii_row_bottom = "+"
-			for j, cell in enumerate(row):
-				if j != (self.columns-1):
-					if cell.is_linked(cell.neighbors["east"]):
-						ascii_row_top += SPACE
-					else:
-						ascii_row_top += WALL
-				if i != (self.rows-1): 
-					if cell.is_linked(cell.neighbors["south"]):
-						ascii_row_bottom += SPACE_HORIZ
-					else:
-						ascii_row_bottom += WALL_HORIZ	
-	
-			ascii_row_top += WALL
-			row_strings_top.append(ascii_row_top)
-			if i != (self.rows-1):
-				row_strings_bottom.append(ascii_row_bottom)
-
-#		row_strings_top.append("|" + WALL*self.columns)	
-
-		print(top_bottom_walls)
-		for top, bot in zip(row_strings_top, row_strings_bottom):
-			print(top)
-			print(bot)
-		print(row_strings_top[-1])
-		print(top_bottom_walls)
-"""

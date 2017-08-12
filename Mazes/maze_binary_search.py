@@ -15,10 +15,10 @@ def mazeify(grid):
 
 	# Eastern column
 	for i, cell in enumerate(grid.column_at(grid.columns-1)[:-1]):
-		cell.link(grid.cell_at(grid.columns-1, i+1))	
+		cell.link(grid.cell_at(i+1, grid.columns-1))	
 
 	# Interior cells
-	for i in range(grid.rows-1):
+	for i in range(1, grid.rows):
 		for j in range(grid.columns-1): 
 			cell_neighbors = grid.cell_at(i, j).neighbors
 			
