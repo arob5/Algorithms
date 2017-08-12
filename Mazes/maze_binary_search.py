@@ -1,7 +1,7 @@
 #
 # maze_binary_search.py
 # Implementation of Binary Search Algorithm to generate a random maze
-# Last Modified: 8/11/2017
+# Last Modified: 8/12/2017
 # Modified By: Andrew Roberts
 #
 
@@ -20,12 +20,6 @@ def mazeify(grid):
 	# Interior cells
 	for i in range(1, grid.rows):
 		for j in range(grid.columns-1): 
-			cell_neighbors = grid.cell_at(i, j).neighbors
-			
-			neighbors_relevant = []
-			for key in cell_neighbors:
-				if (cell_neighbors[key] is not None) and (key in ["north", "east"]):
-					neighbors_relevant.append(cell_neighbors[key])	
-				
-			to_link = np.random.choice(neighbors_relevant) 
+			cell_neighbors = grid.cell_at(i, j).current_neighbors(["north", "east"])	
+			to_link = np.random.choice(cell_neighbors) 
 			grid.cell_at(i, j).link(to_link)	

@@ -9,7 +9,7 @@ import grid_cell_class
 import maze_binary_search
 
 # Create a grid
-grid = grid_cell_class.Grid(20, 20)
+grid = grid_cell_class.Grid(5, 20)
 #grid.print_grid()
 
 # Run the binary search algorithm

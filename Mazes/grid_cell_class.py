@@ -1,7 +1,7 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/11/2017
+# Last Modified: 8/12/2017
 # Modified By: Andrew Roberts
 #
 
@@ -13,25 +13,50 @@ class Cell():
 		self.links = [] 
 
 	def link(self, cell, bidir=True):
+		"""Forms a link (passage) between two cells
+
+		Args:
+		    cell (Cell object): Cell to link with
+		    bidir (bool): Bidirectional link	
+		"""
 		self.links.append([cell.row, cell.column])
 		if bidir:
 			cell.link(self, False)
 	
 	def unlink(self, cell, bidir=True):
+		"""Unlinks two cells
+
+		Args:
+		    cell (Cell object): Cell to unlink from
+		    bidir (bool): Bidirectional link	
+		"""	
 		self.links.remove([cell.row, cell.column]) 
 		if bidir:
 			cell.unlink(self, False)
 
 	def is_linked(self, cell):
+		""" Checks if two cells are linked
+
+		Args:
+            	    cell (Cell object): Cell to check if linked to
+
+		Returns:
+		    bool: True if linked, False otherwise
+		"""
 		return [cell.row, cell.column] in self.links
 
-	def current_neighbors(self):
-		neighbor_cells = []
-		for key in self.neighbors.keys():
-			if self.neighbors[key] is not None: 
-				neightbor_cells.append(self.neighbors[key])
-		return neighbor_cells
+	def current_neighbors(self, dir=["north", "south", "east", "west"]):
+		""" Returns list of neighbor cells
+		
+		Args:
+		    dir (list): List of directions to consider; default: all directions
 
+		Returns:
+		    list: Neighbor cells (Where neighbor exists and direction is in dir)
+
+		"""
+		n = self.neighbors
+		return [n[key] for key in n if n[key] is not None and key in dir]
 
 class Grid():
 	def __init__(self, rows, columns):
@@ -45,36 +70,18 @@ class Grid():
 		return [[Cell(i,j) for j in range(self.columns)] for i in range(self.rows)]	
 
 	def configure_cells(self):
-		# Rightmost border
 		for i in range(self.rows):
-			self.grid[i][self.columns-1].neighbors["east"] = None
-
-		# Leftmost border 
-		for i in range(self.rows):
-			self.grid[i][0].neighbors["west"] = None
-
-		# Topmost  border
-		for j in range(self.columns):
-			self.grid[0][j].neighbors["north"] = None
-
-		# Bottommost border
-		for j in range(self.columns):
-			self.grid[self.rows-1][j].neighbors["south"] = None
-		
-		# All cells	
-		for i in range(0, self.rows):
-			for j in range(0, self.columns):
-				if i != 0: 
-					self.grid[i][j].neighbors["north"] = self.grid[i-1][j]
-				if i != (self.rows-1):
-					self.grid[i][j].neighbors["south"] = self.grid[i+1][j]
-				if j != (self.columns-1):
-					self.grid[i][j].neighbors["east"] = self.grid[i][j+1]
-				if j != 0:
-					self.grid[i][j].neighbors["west"] = self.grid[i][j-1]
-
+			for j in range(self.columns):
+				self.cell_at(i, j).neighbors["north"] = self.cell_at(i-1, j)
+				self.cell_at(i, j).neighbors["south"] = self.cell_at(i+1, j)
+				self.cell_at(i, j).neighbors["east"] = self.cell_at(i, j+1)
+				self.cell_at(i, j).neighbors["west"] = self.cell_at(i, j-1)
+	
 	def cell_at(self, row, col):
-		return self.grid[row][col]
+		if (row < self.rows) and (col < self.columns):
+			return self.grid[row][col]
+		else:
+			return None
 
 	def row_at(self, row):
 		try:
