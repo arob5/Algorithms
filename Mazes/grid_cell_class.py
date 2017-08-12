@@ -88,7 +88,43 @@ class Grid():
 		except Exception:
 			print("Column out of bounds")
 
-	
+	def print_grid(self):
+		top_and_bottom_wall = "+" + ("---+" * self.columns)
+
+		top_row = False
+		print(top_and_bottom_wall)
+		for i, row in enumerate(self.grid):
+			if top and (i != self.rows-1):
+				print_top_wall(row)	
+
+			if not top:
+				print_bottom_wall(row)		
+			top_row = not top_row
+		print(top_and_bottom_wall)	
+
+	@staticmethod
+	def print_top_wall(row):
+		print("+")
+
+		for cell in row:
+			if cell.is_linked(cell.neighbors[north]):
+				print("   +", end="")
+			else:
+				print("---+", end="")
+
+		print("")
+
+	@staticmethod
+	def print_bottom_wall(row):
+		print("|")
+		
+		for cell in row[-1]:
+			if cell.is_linked(ce..neighbors[east])	
+		
+		print("   |")
+
+
+"""	
 	def print_grid(self):
 		SPACE = "   "
 		WALL  = "   |"
@@ -127,3 +163,4 @@ class Grid():
 			print(bot)
 		print(row_strings_top[-1])
 		print(top_bottom_walls)
+"""

@@ -13,5 +13,5 @@ grid = grid_cell_class.Grid(10, 10)
 grid.print_grid()
 
 # Run the binary search algorithm
-maze_binary_search.mazeify(grid)
-grid.print_grid()
+#maze_binary_search.mazeify(grid)
+#grid.print_grid()
