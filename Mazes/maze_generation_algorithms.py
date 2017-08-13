@@ -1,6 +1,6 @@
 #
-# maze_binary_search.py
-# Implementation of Binary Search Algorithm to generate a random maze
+# maze_generation_algorithms.py
+# Various algorithms to generate a random maze
 # Last Modified: 8/12/2017
 # Modified By: Andrew Roberts
 #
@@ -8,7 +8,7 @@
 import grid_cell_class
 import numpy as np
 
-def mazeify(grid):
+def binary_search(grid):
 	# Northern row
 	for j, cell in enumerate(grid.row_at(0)[:-1]):
 		cell.link(grid.cell_at(0, j+1))
