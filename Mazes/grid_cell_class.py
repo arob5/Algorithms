@@ -1,9 +1,11 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/12/2017
+# Last Modified: 8/14/2017
 # Modified By: Andrew Roberts
 #
+
+import png
 
 class Cell(): 
 	def __init__(self, row, column):
@@ -67,9 +69,11 @@ class Grid():
 		self.configure_cells()			
 		
 	def prepare_grid(self):
+		""" Returns 2-D grid of Cell objects"""
 		return [[Cell(i,j) for j in range(self.columns)] for i in range(self.rows)]	
 
 	def configure_cells(self):
+		"""Updates neighbor dictionaries of each Cell object in grid"""
 		for i in range(self.rows):
 			for j in range(self.columns):
 				self.cell_at(i, j).neighbors["north"] = self.cell_at(i-1, j)
@@ -78,24 +82,28 @@ class Grid():
 				self.cell_at(i, j).neighbors["west"] = self.cell_at(i, j-1)
 	
 	def cell_at(self, row, col):
-		if (row < self.rows) and (col < self.columns):
+		"""Returns Cell object at (row, col) if in bounds, else returns None"""
+		try:
 			return self.grid[row][col]
-		else:
+		except IndexError:
 			return None
 
 	def row_at(self, row):
+		"""Returns row at index 'row' if in bounds, else raises Exception"""
 		try:
 			return self.grid[row]
-		except Exception:
+		except IndexError:
 			print("Row out of bounds")
 
 	def column_at(self, col):
+		"""Returns col at index 'col' if in bounds, else raises Exception"""
 		try:
 			return [row[col] for row in self.grid]
-		except Exception:
+		except IndexError:
 			print("Column out of bounds")
 
 	def print_grid(self):
+		"""Prints grid to console using ASCII characters"""
 		top_and_bottom_wall = "+" + ("---+" * self.columns)
 
 		print(top_and_bottom_wall)
@@ -107,6 +115,7 @@ class Grid():
 
 	@staticmethod
 	def print_top_wall(row):
+		"""Helper function for print_grid, prints top part of walls"""
 		print("+", end="")
 
 		for cell in row:
@@ -118,6 +127,7 @@ class Grid():
 
 	@staticmethod
 	def print_bottom_wall(row):
+		"""Helper function for print_grid, prints bottom part of walls"""
 		print("|", end="")
 
 		for cell in row[:-1]:
