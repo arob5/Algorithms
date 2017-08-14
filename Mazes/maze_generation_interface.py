@@ -1,7 +1,7 @@
 #
 # binary_tree_demo.py
 # Produces a maze utilizing the Cell, Grid, and BinarySearchMaze classes 
-# Last Modified: 8/12/2017
+# Last Modified: 8/13/2017
 # Modified By: Andrew Roberts
 #
 
@@ -15,6 +15,8 @@ def main():
 
 	if alg == "binary":
 		maze_generation_algorithms.binary_search(grid)
+	elif alg == "sidewinder":
+		maze_generation_algorithms.sidewinder(grid)
 	grid.print_grid()
 
 def parse_cmd_line_args(args_list):
@@ -66,7 +68,7 @@ def get_cmd_line_values(args_list):
 		sys.exit(1)
 	
 	try:
-		valid_input = ["binary"]
+		valid_input = ["binary", "sidewinder"]
 		if args_list[2][2:] not in valid_input:
 			raise Exception
 	except Exception:
