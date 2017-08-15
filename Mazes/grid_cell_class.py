@@ -1,11 +1,9 @@
 #
 # grid_cell_class.py
 # Class implementations for a grid (which is a container for cells) and a cell (which fits into the container grid) 
-# Last Modified: 8/14/2017
+# Last Modified: 8/15/2017
 # Modified By: Andrew Roberts
 #
-
-import png
 
 class Cell(): 
 	def __init__(self, row, column):
@@ -59,6 +57,15 @@ class Cell():
 		"""
 		n = self.neighbors
 		return [n[key] for key in n if n[key] is not None and key in dir]
+
+	def current_links(self):
+		"""Returns list of all cells linked to to the current cell"""
+		curr_neighbors = self.current_neighbors()
+		return [n for n in curr_neighbors if self.is_linked(n)]
+	
+	def cell_location(self):
+		"""Returns a tuple of the row, column location of the cell"""
+		return (self.row, self.column)
 
 class Grid():
 	def __init__(self, rows, columns):
