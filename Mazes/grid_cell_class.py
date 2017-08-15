@@ -42,8 +42,13 @@ class Cell():
 
 		Returns:
 		    bool: True if linked, False otherwise
+
+		If input is not type Cell, will catch exception and return False
 		"""
-		return [cell.row, cell.column] in self.links
+		try: 
+			return [cell.row, cell.column] in self.links
+		except Exception:
+			return False
 
 	def current_neighbors(self, dir=["north", "south", "east", "west"]):
 		""" Returns list of neighbor cells
@@ -109,15 +114,22 @@ class Grid():
 		except IndexError:
 			print("Column out of bounds")
 
-	def print_grid(self):
-		"""Prints grid to console using ASCII characters"""
+	def print_grid(self, path=None):
+		"""Prints grid to console using ASCII characters
+
+		Args:
+		    path (list): List of (row,colum) tuples of path to print; Default: None
+		"""
+		if path is None:
+			path = []
+
 		top_and_bottom_wall = "+" + ("---+" * self.columns)
 
 		print(top_and_bottom_wall)
 		for i, row in enumerate(self.grid):
 			if i != 0:
 				self.print_top_wall(row)	
-			self.print_bottom_wall(row)		
+			self.print_bottom_wall(row, path)		
 		print(top_and_bottom_wall)	
 
 	@staticmethod
@@ -133,14 +145,25 @@ class Grid():
 		print("")
 
 	@staticmethod
-	def print_bottom_wall(row):
-		"""Helper function for print_grid, prints bottom part of walls"""
+	def print_bottom_wall(row, path):
+		"""Helper function for print_grid, prints bottom part of walls
+		
+		Args:
+		    path (list): List of (row,colum) tuples of path to print; Default: None
+		"""
 		print("|", end="")
 
-		for cell in row[:-1]:
-			if cell.is_linked(cell.neighbors["east"]):	
-				print("    ", end="")
+		for cell in row:
+			if cell.cell_location() in path:
+				SPACE = " *  "
+				SPACE_WALL = " * |"
 			else:
-				print("   |", end="")
-		print("   |")
+				SPACE = "    "
+				SPACE_WALL = "   |"
+
+			if cell.is_linked(cell.neighbors["east"]):	
+				print(SPACE, end="")
+			else:
+				print(SPACE_WALL, end="")
+		print("")
 
