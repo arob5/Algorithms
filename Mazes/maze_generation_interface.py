@@ -1,11 +1,12 @@
 #
 # binary_tree_demo.py
 # Produces a maze utilizing the Cell, Grid, and BinarySearchMaze classes 
-# Last Modified: 8/13/2017
+# Last Modified: 8/15/2017
 # Modified By: Andrew Roberts
 #
 
 import maze_generation_algorithms
+import maze_search_algorithms
 import grid_cell_class
 import sys
 
@@ -17,7 +18,17 @@ def main():
 		maze_generation_algorithms.binary_search(grid)
 	elif alg == "sidewinder":
 		maze_generation_algorithms.sidewinder(grid)
-	grid.print_grid()
+
+	print("Maze generated using {} algorithm".format(alg))
+	print("Enter 'm' to print maze, 'p' to print maze with optimal path, 'q' to quit")
+	
+	usr_input = None
+	while usr_input != "q":
+		usr_input = input(">> ")
+		if ensure_valid_input(usr_input):
+			execute_user_command(grid, usr_input)
+		else:
+			print("Unrecognized command")
 
 def parse_cmd_line_args(args_list):
 	""" Ensures correct number of command line arguments
@@ -79,4 +90,40 @@ def get_cmd_line_values(args_list):
 
 	return n_rows, n_cols, alg	
 
+def ensure_valid_input(usr_input):
+	"""Returns True if input valid, otherwise False"""
+	return usr_input in ["m", "p", "q"]
+		
+def execute_user_command(grid, usr_input):
+	if usr_input == "m":
+		grid.print_grid()
+
+	if usr_input == "p":
+		valid_input = False
+		while not valid_input:
+			valid_input = execute_bfs(grid)			
+	
+def execute_bfs(grid):
+	start = input("Enter row and column of start node (row <space> column): ")
+	goal = input("Enter row and column of goal node (row <space> column): ") 
+
+	try:
+		start = tuple(map(int, start.split()))	
+		goal = tuple(map(int, goal.split()))
+	except Exception:
+		print("Invalid input")
+		return False
+
+	try:
+		optimal_path = maze_search_algorithms.bfs(grid, start, goal)
+
+		if not optimal_path:
+			raise Exception 
+
+		grid.print_grid(optimal_path)	
+	except Exception:
+		print("No path found")
+
+	return True
+			
 main()
