@@ -22,27 +22,20 @@ def bfs(state_df, start):
 				state_df.loc[state, "Previous"] = current
 				state_df.loc[state, "Distance"] = state_df.loc[current, "Distance"] + 1
 
-# Implement recursively
-def shortest_path(state_df, start, goal):
-	current = goal
-	path = []
+def shortest_path_wrapper(state_df, start, current):
+	if current in ["Hawaii", "Alaska"]:
+		print("No path found")	
+	else:
+		print("{} state journey".format(int(state_df.loc[current, "Distance"])))
+		shortest_path(state_df, start, current, current)
+		print(current)
 
-	while current != start:
-		path.append(current)
-		current = state_df.loc[current, "Previous"]		
-	path.append(start)
 
-	print(path[::-1])
-	
-	"""
-	print(current, end="")
-	while current != goal:
-		if current != start:
-			print("-->", current, end="")
-
-		current = state_df.loc[current, "Previous"]
-	print("-->", goal)
-	"""
+def shortest_path(state_df, start, current, goal):
+	if current != start:
+		shortest_path(state_df, start, state_df.loc[current, "Previous"], goal)
+	if current != goal:
+		print(current, "--> ", end="")
 	
 	
 	
