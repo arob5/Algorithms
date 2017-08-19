@@ -14,9 +14,8 @@
 /*
 * Constructor - Initializes random DNA
 */
-Genotype::Genotype(int dna_length, float mutation_rate) {
+Genotype::Genotype(int dna_length) {
 	this->dna_length = dna_length; 
-	this->mutation_rate = mutation_rate; 
 
 	for(int i = 0; i < dna_length; i++) {
 		dna.push_back(random_char()); 	
@@ -60,7 +59,7 @@ std::string Genotype::arr_to_str() {
 */
 Genotype Genotype::crossover(Genotype &vec) {
 
-	Genotype child(dna_length, mutation_rate); 
+	Genotype child(dna_length); 
 	int midpoint = ceil(dna_length / (float)2); 
 
 	for(int i = 0; i < dna_length; i++) {
@@ -77,8 +76,10 @@ Genotype Genotype::crossover(Genotype &vec) {
 /*
 * Mutates DNA; will change individual genes (chars) with certain probability
 * Probability of individual char being changed depends on mutation_rate
+*
+* Args: float (probability of each gene being mutated)
 */
-void Genotype::mutate() {
+void Genotype::mutate(float mutation_rate) {
 
 	for(int i = 0; i < dna_length; i++) {
 

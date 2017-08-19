@@ -12,16 +12,15 @@
 
 class Genotype {
 	public:
-		Genotype(int len, float mutation_rate); 
+		Genotype(int len); 
 		char random_char(); 
 		std::string arr_to_str(); 	
 		Genotype crossover(Genotype&); 
-		void mutate(); 
+		void mutate(float mutation_rate); 
 		void print(); 
 		
 	private:
 		int dna_length; 
-		float mutation_rate; 
 		std::vector<char> dna; 	
 		
 };
