@@ -1,7 +1,7 @@
 /*
 * genotype.h
 * Purpose: Class defining pseudo-DNA as a character array
-* Last Modified: 8/18/2017
+* Last Modified: 8/19/2017
 * Modified By: AndrewRoberts
 */
 
@@ -10,21 +10,20 @@
 
 #include <vector>
 
-class Genotype() {
+class Genotype {
 	public:
-		Genotype(int len); 
+		Genotype(int len, float mutation_rate); 
 		char random_char(); 
-		string arr_to_str(); 	
-		std::vector<char> crossover(std::vector<char>); // Should function return &, *, or copy?  
+		std::string arr_to_str(); 	
+		Genotype crossover(Genotype&); 
 		void mutate(); 
+		void print(); 
 		
-	
 	private:
-		std::vector<char> dna; 
-		std::vector<char> target; 
+		int dna_length; 
+		float mutation_rate; 
+		std::vector<char> dna; 	
 		
-
-
-}
+};
 
 #endif
