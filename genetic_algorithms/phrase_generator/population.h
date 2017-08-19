@@ -9,7 +9,9 @@
 
 class Population {
 	public:
-		Population(std::string target_phrase, float mutation_rate); 
+		Population(std::string target_phrase, float mutation_rate, int n_individuals); 
+		void calc_fitness(); 
+		void roulette_wheel_selection(); 
 		void print(); 	
 	
 	private:

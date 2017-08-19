@@ -51,6 +51,27 @@ std::string Genotype::arr_to_str() {
 }
 
 /*
+* Calculates the fitness of the DNA sequence
+* Fitness defined as proportion of correct characters (order matters)
+* 
+* Args: vector<char>& (Reference to target/goal vector)
+*/
+void Genotype::calc_fitness(std::vector<char> &target) { 
+
+	int score = 0; 
+	
+	for(int i = 0; i < dna_length; i++) {
+
+		if(dna[i] == target[i])
+			score++; 	
+
+	}
+
+	fitness = score / (float)dna_length;  
+	
+}
+
+/*
 * Performs a simple crossover on two "parents" and produces a "child"
 * Child will have half of DNA of each parent
 *
@@ -90,11 +111,23 @@ void Genotype::mutate(float mutation_rate) {
 
 }
 
+/*
+* Returns the fitness score of the individual (genotype) 
+*/
+float Genotype::get_fitness() {
+
+	return fitness; 
+
+}
+
 // TEMP - For debugging
 void Genotype::print() {
 
-	for(int i = 0; i < dna_length; i++)
-		std::cout << dna[i] << " "; 
+//	for(int i = 0; i < dna_length; i++)
+//		std::cout << dna[i] << " "; 
 
-	std::cout << std::endl; 
+//	std::cout << std::endl; 
+
+	std::cout << fitness << std::endl; 
+
 }
