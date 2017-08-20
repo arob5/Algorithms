@@ -52,7 +52,7 @@ std::string Genotype::arr_to_str() {
 
 /*
 * Calculates the fitness of the DNA sequence
-* Fitness defined as proportion of correct characters (order matters)
+* Fitness defined as number of correct characters squared (order matters)
 * 
 * Args: vector<char>& (Reference to target/goal vector)
 */
@@ -67,27 +67,28 @@ void Genotype::calc_fitness(std::vector<char> &target) {
 
 	}
 
-	fitness = score;  
+	fitness = (score * score);  
 	
 }
 
 /*
 * Performs a simple crossover on two "parents" and produces a "child"
-* Child will have half of DNA of each parent
+* Child will have some DNA from each parent
+* To determine number of chars from each parent, random midpoint is selected
 *
 * Args: Genotype& (Reference to second parent)
 * Returns: Genotype (chld)
 */
-Genotype Genotype::crossover(Genotype &vec) {
+Genotype Genotype::crossover(Genotype &g) {
 
 	Genotype child(dna_length); 
-	int midpoint = ceil(dna_length / (float)2); 
+	int midpoint = rand() % dna_length; 
 
 	for(int i = 0; i < dna_length; i++) {
 		if(i < midpoint)
 			child.dna[i] = dna[i]; 
 		else
-			child.dna[i] = vec.dna[i]; 	
+			child.dna[i] = g.dna[i]; 	
 	}	
 
 	return child; 
