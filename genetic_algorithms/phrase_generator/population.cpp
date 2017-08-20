@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <cstdlib>
 #include "population.h"
 
 /*
@@ -56,20 +57,41 @@ void Population::calc_fitness() {
 
 }
 
-void Population::roulette_wheel_selection() {
+/*
+* Uses a roulette wheel selection to randomly select an individual from the population
+* Selection is weighted by the individuals' fitness levels
+*
+* Returns: int (index of selected individual in population vector) 
+*/
+int Population::roulette_wheel_selection() {
 
-	float cumulative_fitness[population.size()]; 
-	
-	cumulative_fitness[0] = population[0].get_fitness(); 
+	int fitness_sum = 0; 
+	for(int i = 0; i < population.size(); i++)
+		fitness_sum += population[i].get_fitness(); 
 
-	for(int i = 1; i < population.size(); i++)
-		cumulative_fitness[i] = cumulative_fitness[i-1] + population[i].get_fitness();  
+	if(fitness_sum == 0)
+		return rand() % population.size(); 
+
+
+	int rnd = rand() % fitness_sum; 
+
+	int cum_sum = 0; 
+	for(int i = 0; i < population.size(); i++) {
+		cum_sum += population[i].get_fitness(); 	
+
+		if(cum_sum > rnd)
+			return i; 
+
+	}
+
+	return -1; 	
 	
 }
 
 void Population::print() {
 
-	for(int i = 0; i < population.size(); i++)
+	for(int i = 0; i < population.size(); i++) {
+		std::cout << population[i].get_fitness() << "-----"; 
 		population[i].print(); 
-		
+	}
 }

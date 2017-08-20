@@ -11,7 +11,7 @@ class Population {
 	public:
 		Population(std::string target_phrase, float mutation_rate, int n_individuals); 
 		void calc_fitness(); 
-		void roulette_wheel_selection(); 
+		int roulette_wheel_selection(); 
 		void print(); 	
 	
 	private:

@@ -21,6 +21,7 @@ int main() {
 	std::cout << "\n\n\n\n\n\n"; 
 
 	p.roulette_wheel_selection(); 	
+	p.roulette_wheel_selection(); 	
 
 	return 0; 
 }

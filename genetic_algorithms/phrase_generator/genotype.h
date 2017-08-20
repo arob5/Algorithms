@@ -18,12 +18,12 @@ class Genotype {
 		void calc_fitness(std::vector<char> &target); 
 		Genotype crossover(Genotype&); 
 		void mutate(float mutation_rate); 
-		float get_fitness(); 
+		int get_fitness(); 
 		void print(); 
 		
 	private:
 		int dna_length; 
-		float fitness; 
+		int fitness; 
 		std::vector<char> dna; 	
 		
 };

@@ -67,7 +67,7 @@ void Genotype::calc_fitness(std::vector<char> &target) {
 
 	}
 
-	fitness = score / (float)dna_length;  
+	fitness = score;  
 	
 }
 
@@ -114,7 +114,7 @@ void Genotype::mutate(float mutation_rate) {
 /*
 * Returns the fitness score of the individual (genotype) 
 */
-float Genotype::get_fitness() {
+int Genotype::get_fitness() {
 
 	return fitness; 
 
@@ -123,11 +123,10 @@ float Genotype::get_fitness() {
 // TEMP - For debugging
 void Genotype::print() {
 
-//	for(int i = 0; i < dna_length; i++)
-//		std::cout << dna[i] << " "; 
+	for(int i = 0; i < dna_length; i++)
+		std::cout << dna[i] << " "; 
+	
 
-//	std::cout << std::endl; 
-
-	std::cout << fitness << std::endl; 
+	std::cout << std::endl; 
 
 }
