@@ -13,7 +13,10 @@ import search_algs
 def main():
 	START = "Illinois"
 	state_df = pd.read_pickle("state_df.pickle")
-	search_algs.bfs(state_df, START)
-	search_algs.shortest_path_wrapper(state_df, START, "New Hampshire")
+	#search_algs.shortest_path_bfs(state_df, START)
+	#search_algs.shortest_path_wrapper(state_df, START, "New Hampshire")
+
+	search_algs.path_exists(state_df, "Illinois", "New Hampshire")	
+	
 
 main()

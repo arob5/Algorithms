@@ -8,7 +8,7 @@
 import pandas as pd
 import numpy as np
 
-def bfs(state_df, start):
+def shortest_path_bfs(state_df, start):
 	current = start
 	state_df.loc[current, "Distance"] = 0
 	q, S = [current], set([current])
@@ -36,6 +36,22 @@ def shortest_path(state_df, start, current, goal):
 		shortest_path(state_df, start, state_df.loc[current, "Previous"], goal)
 	if current != goal:
 		print(current, "--> ", end="")
+
+def path_exists(state_df, current, goal, visited=None):
+	if visited is None:
+		visited = []
+	visited.append(current)
+
+	if current == goal:
+		print("Found path")
+	
+	for bordering_state in state_df.loc[current, "Borders"]:
+		if bordering_state not in visited: 
+			path_exists(state_df, bordering_state, goal, visited)
+
+	return False
+	
+	
 	
 	
 	

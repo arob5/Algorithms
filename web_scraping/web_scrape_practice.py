@@ -13,4 +13,3 @@ r = requests.get("https://www.nytimes.com/interactive/2017/06/23/opinion/trumps-
 soup = BeautifulSoup(r.text, "html.parser")
 
 results = soup.find_all("span", attrs={"class":"short-desc"})
-print(results[0])
